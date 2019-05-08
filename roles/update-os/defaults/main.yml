@@ -1,0 +1,7 @@
+---
+# Upgrade all packages, excluding
+exclude_enabled: false
+yum_exclude: 'exclude: kernel*,docker*,kube*'
+
+# update os message
+update_os_message: 'Default message'

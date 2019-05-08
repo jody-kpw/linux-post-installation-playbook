@@ -1,0 +1,14 @@
+---
+- name: Rebooting ...
+  shell: "{{ reboot_rebooting_shell }}"
+  async: "{{ reboot_rebooting_async }}"
+  poll: "{{ reboot_rebooting_poll }}"
+  when: reboot_enabled
+
+- name: Wait for the reboot to complete.
+  wait_for_connection:
+    connect_timeout: " {{ reboot_wait_connect_timeout }}"
+    sleep: "{{ reboot_wait_sleep }}"
+    delay: "{{ reboot_wait_delay }}"
+    timeout: "{{ reboot_wait_timeout }}"
+  when: reboot_enabled

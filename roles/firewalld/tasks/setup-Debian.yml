@@ -1,0 +1,4 @@
+---
+- name: "Disable firwalld service"
+  command: ufw disable
+  when: firewalld_disable

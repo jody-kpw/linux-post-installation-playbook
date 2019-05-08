@@ -1,0 +1,15 @@
+---
+# https://www.nano-editor.org/
+- name: "nano text editor"
+  apt: name=nano state=present
+  when: nano_enabled
+
+# http://www.vim.org/
+- name: "vim text editor"
+  apt: name=vim state=present
+  when: vim_enabled
+
+# https://midnight-commander.org/
+- name: "mc text editor"
+  apt: name=mc state=present
+  when: mc_enabled

@@ -1,0 +1,58 @@
+---
+- name: "Ensure NTP-related packages are installed."
+  package:
+    name: ntp
+    state: present
+
+- name: "Ensure tzdata package is installed (Linux)."
+  package:
+    name: tzdata
+    state: present
+
+- name: "Install ntpdate package"
+  action: "{{ ansible_pkg_mgr }}"
+  args:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+   - ntpdate
+  tags: install
+
+- name: "Debain: Set timezone {{ global_timezone }}"
+  timezone:
+    name: "{{ global_timezone }}"
+
+- name: "Set Crontab Synchronizing time with NTP update and hwclock"
+  cron: minute="*/59" hour="*" day="*" month="*" weekday="*"
+        name="ntp update"
+        cron_file="ntp"
+        user="root"
+        job="ntpdate -u {{ ntp_area_0 }} && hwclock -w"
+
+- name: "ntp stop"
+  command: service ntp stop
+
+- name: "Sync hwclock"
+  shell: hwclock -w
+  tags: ntp
+
+- name: "ntp start"
+  command: service ntp start
+
+- name: "Ansible shell register result"
+  command: date -R
+  register: command_result
+
+- debug: msg="{{ command_result }}"
+
+- name: "Generate ntp.conf file"
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+  when: ntp_manage_config
+
+- name: "ntp stop"
+  command: service ntp stop
+
+- name: "ntp start"
+  command: service ntp start

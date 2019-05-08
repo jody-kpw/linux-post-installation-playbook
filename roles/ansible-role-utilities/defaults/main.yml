@@ -1,0 +1,10 @@
+---
+# Roles: utilities
+# Set to true to install the following packages.
+wget_enabled: false
+htop_enabled: false
+telnet_enabled: false
+lsof_enabled: false
+bind_enabled: false
+net_tools_enabled: false
+nmap_enabled: false

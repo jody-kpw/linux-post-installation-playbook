@@ -1,0 +1,17 @@
+---
+- name: "Enable Software Collections (SCL)"
+  yum: name=centos-release-scl state=present
+  when: python36_enabled
+
+- name: "Install the collection"
+  yum: name=rh-python36 state=present
+  when: python36_enabled
+
+- name: "Start using software collections"
+  command: scl enable rh-python36 bash
+  register: command_result
+  when: python36_enabled
+
+- name: Ansible shell register result
+  debug: msg="{{ command_result.stdout }}"
+  when: python36_enabled

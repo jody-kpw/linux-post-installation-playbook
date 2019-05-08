@@ -1,0 +1,51 @@
+---
+# Wget is a network utility to retrieve files from
+# the Web using http and ftp, the two most widely used Internet protocols.
+- name: "Install wget"
+  yum:
+    name: wget
+    state: present
+  when: wget_enabled
+
+
+# Htop is an interactive and real time process monitoring application for Linux
+- name: "Install Htop"
+  yum: name=htop state=present
+  when: htop_enabled
+
+
+# Telnet is a network protocol used on the Internet or local area networks
+# to provide a bidirectional interactive text-oriented communication facility
+# using a virtual terminal connection .
+- name: "Install Telnet"
+  yum: name=telnet state=present
+  when: telnet_enabled
+
+
+# The lsof command in Linux displays in its output information about
+# files that are opened by processes.
+- name: "Install lsof"
+  yum: name=lsof state=present
+  when: lsof_enabled
+
+
+# Bind-utils contains a collection of utilities for querying
+# DNS (Domain Name System) name servers to find out information about Internet hosts.
+- name: Install bind and bind-utils package
+  yum: name="{{item}}" state=present
+  with_items:
+    - bind
+    - bind-utils
+  when: bind_enabled
+
+# net-tools, the collection of base networking utilities for Linux.
+- name: "Install net-tools"
+  yum: name=net-tools state=present
+  when: net_tools_enabled
+
+
+# The nmap command line utility is used for port scanning and finding out all the
+# ways a computer communicates with other computers on a network.
+- name: "Install nmap Network Security Scanner"
+  yum: name=nmap state=present
+  when: nmap_enabled

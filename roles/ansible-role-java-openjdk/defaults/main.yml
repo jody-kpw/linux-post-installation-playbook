@@ -1,0 +1,8 @@
+---
+# Roles: Java
+# Set to true to install Java OpenJDK
+java_enabled: false
+
+# Set java_packages if you would like to use a different version than the
+# default (OpenJDK 1.8).
+java_packages: java-1.8.0-openjdk

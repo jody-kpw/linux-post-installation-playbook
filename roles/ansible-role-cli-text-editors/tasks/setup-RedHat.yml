@@ -1,0 +1,15 @@
+---
+# https://www.nano-editor.org/
+- name: "nano text editor"
+  yum: name=nano state=present
+  when: nano_enabled
+
+# http://www.vim.org/
+- name: "vim text editor"
+  yum: name=vim state=present
+  when: vim_enabled
+
+# https://midnight-commander.org/
+- name: "mc text editor"
+  yum: name=mc state=present
+  when: mc_enabled

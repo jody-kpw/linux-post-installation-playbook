@@ -1,0 +1,102 @@
+---
+# Roles: ansible-role-reboot
+# Should restart after updates?
+# Typically only kernel updates require a reboot.
+reboot_enabled: true
+
+# always remove all entries before adding the configured ones
+# if set to 'no' you can remove entries manually by setting the
+# item's state to 'absent'
+hosts_reset: yes
+
+# List of Supported Timezones
+# http://php.net/manual/en/timezones.php
+global_timezone: Asia/Hong_Kong
+
+# Roles: update-os
+# Upgrade all packages, excluding
+exclude_enabled: false
+# Example
+# yum_exclude: 'exclude: kernel*,docker*,kube*'
+yum_exclude: 'exclude: kernel*'
+
+# update os message
+update_os_message: 'Default message'
+
+# Roles: ntp
+# Set to true to use the ntp.conf template
+ntp_manage_config: true
+
+# NTP server configuration.
+# See: The pool.ntp.org project is a big virtual cluster of
+# timeservers providing reliable easy to use NTP service.
+ntp_area_0: 'hk.pool.ntp.org'
+ntp_area_1: 'asia.pool.ntp.org'
+ntp_area_2: 'asia.pool.ntp.org'
+ntp_area_3: 'asia.pool.ntp.org'
+ntp_servers:
+  - "0.{{ ntp_area_0 }} iburst"
+  - "1.{{ ntp_area_1 }} iburst"
+  - "2.{{ ntp_area_2 }} iburst"
+  - "3.{{ ntp_area_3 }} iburst"
+
+# Roles: firewalld tools
+# FirewallD is a firewall management tool available by default on CentOS 7 servers.
+# Set to true disable, false to enable.
+firewalld_disable: true
+
+# Roles: selinux
+# selinux - Change policy and state of SELinux
+# http://docs.ansible.com/ansible/latest/selinux_module.html
+
+# Configures the SELinux mode and policy.
+# A reboot may be required after usage.
+# Ansible will not issue this reboot but will let you know when it is required.
+
+# SELinux is a security extension of CentOS that should provide extended security.
+# In my opinion you don't need it to configure a secure system,
+# and it usually causes more problems than advantages
+# (think of it after you have done a week of trouble-shooting
+# because some service wasn't working as expected,
+# and then you find out that everything was ok,
+# only SELinux was causing the problem).
+# Therefore I disable it (this is a must if you want to install any control panel
+# such as Vesta Control Panel, ISPConfig later on).
+
+# Set true to one of the following variables.
+selinux_enforcing_enabled: false
+selinux_permissive_enabled: false
+selinux_disabled: true
+
+
+# Roles: cli-text-editors
+# Set to true to install the packages.
+nano_enabled: true
+vim_enabled: true
+mc_enabled: true
+emacs_enabled: true
+
+# Roles: Python 3.6
+python36_enabled: false
+
+# Roles: python-pip
+python-pip_enabled: true
+pip_package: python-pip
+pip_install_packages: []
+
+# Roles: utilities
+# Set to true to install the following packages.
+wget_enabled: true
+htop_enabled: true
+telnet_enabled: true
+lsof_enabled: true
+bind_enabled: true
+net_tools_enabled: true
+nmap_enabled: true
+
+# Roles: Java
+java_enabled: false
+
+# Set java_packages if you would like to use a different version than the
+# default (OpenJDK 1.8).
+java_packages: java-1.8.0-openjdk

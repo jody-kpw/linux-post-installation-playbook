@@ -1,0 +1,17 @@
+---
+- name: "Exclude Specific Packages from Yum Update"
+  lineinfile:
+    state: "present"
+    dest: /etc/yum.conf
+    line: "{{ yum_exclude }}"
+    regexp: "^exclude"
+    insertafter: EOF
+  when: exclude_enabled
+
+- name: upgrade all packages, excluding kernel ...
+  yum:
+    name: '*'
+    state: latest
+
+- name: Update OS Messages
+  debug: msg="{{ update_os_message }}"

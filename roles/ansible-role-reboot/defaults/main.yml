@@ -1,0 +1,10 @@
+---
+reboot_enabled: false
+reboot_rebooting_shell: "sleep 5 && reboot"
+reboot_rebooting_async: 1
+reboot_rebooting_poll: 0
+
+reboot_wait_connect_timeout: 20
+reboot_wait_sleep: 5
+reboot_wait_delay: 5
+reboot_wait_timeout: 300

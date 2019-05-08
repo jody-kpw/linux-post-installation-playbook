@@ -1,0 +1,44 @@
+- hosts: all
+  become: true
+  roles:
+    # Add etc/hosts
+    - roles/ansible-hosts
+    # Update OS
+    - role: update-os
+      vars:
+        update_os_message: "Initial Update OS!"
+        yum_exclude: 'exclude: kernel*'
+        exclude_enabled: true
+    # "Fixing setlocale: LC_CTYPE: cannot change locale (UTF-8): No such file or directory
+    - roles/setlocale
+    # Network Time Protocol
+    - roles/ansible-role-ntp
+    # firewalld is a firewall management tool for Linux operating systems.
+    # It provides firewall features by acting as a front-end for the Linux kernel's
+    # netfilter framework
+    - roles/firewalld
+    # Security-Enhanced Linux (SELinux) is a Linux kernel security module that provides
+    # a mechanism for supporting access control security policies
+    - roles/selinux
+    # Setup a Network Repository to Install or Update Packages
+    - roles/repositories
+    # # Install GCC and Development Tools on CentOS 7
+    # - roles/development-tools
+    # Install Python 3.6
+    - roles/ansible-role-python36
+    # An Ansible Role that installs Pip on Linux.
+    - roles/ansible-role-pip
+    # Install list of text editors
+    - roles/ansible-role-cli-text-editors
+    # Install list of utilities
+    - roles/ansible-role-utilities
+    # Install Java OpenJDK
+    - roles/ansible-role-java-openjdk
+    # Update OS
+    - role: update-os
+      vars:
+        update_os_message: "Second Update OS!"
+        yum_exclude: 'exclude: kernel*'
+        exclude_enabled: true
+    # Reboot
+    - roles/ansible-role-reboot

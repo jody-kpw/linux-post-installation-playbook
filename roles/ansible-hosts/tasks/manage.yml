@@ -1,0 +1,16 @@
+---
+- name: Removing all hosts entries
+  lineinfile:
+    state: absent
+    dest: /etc/hosts
+    regexp: "^.*# ansible$"
+  when: hosts_reset
+
+- name: Adding hosts entries
+  lineinfile:
+    state: "{{ hostvars[item].state | default('present') }}"
+    dest: /etc/hosts
+    line: "{{ hostvars[item].ip }} {{ hostvars[item].inventory_hostname }} # ansible"
+    regexp: "^{{ hostvars[item].ip }} {{ hostvars[item].inventory_hostname }} # ansible"
+    insertafter: EOF
+  with_items: "{{ groups['all'] }}"

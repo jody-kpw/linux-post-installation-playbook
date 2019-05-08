@@ -1,0 +1,47 @@
+---
+- name: "Ensure NTP-related packages are installed."
+  package:
+    name: ntp
+    state: present
+
+- name: "Ensure tzdata package is installed (Linux)."
+  package:
+    name: tzdata
+    state: present
+
+- name: "Set Crontab Synchronizing time with NTP update and hwclock"
+  cron: minute="*/59" hour="*" day="*" month="*" weekday="*"
+        name="ntp update"
+        cron_file="ntp"
+        user="root"
+        job="ntpdate -u {{ ntp_area_0 }} && hwclock -w"
+
+- name: "Make sure NTP is stopped"
+  service: name=ntpd state=stopped enabled=yes
+  tags: ntp
+
+- name: "Ensure NTP is running and enabled as configured."
+  service:
+    name: "{{ ntp_daemon }}"
+    state: started
+    enabled: yes
+
+- name: "Sync hwclock"
+  shell: hwclock -w
+  tags: ntp
+
+- name: "restart ntpd"
+  service: name=ntpd state=restarted
+
+- name: "Ansible shell register result"
+  command: date -R
+  register: command_result
+
+- debug: msg="{{ command_result }}"
+
+- name: "Generate ntp.conf file"
+  template:
+    src: ntp.conf.j2
+    dest: /etc/ntp.conf
+  notify: restart ntp
+  when: ntp_manage_config
